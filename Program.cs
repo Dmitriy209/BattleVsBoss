@@ -48,7 +48,6 @@ namespace BattleVsBoss
 
             while (endGame == false)
             {
-
                 int damageBoss = random.Next(lowLimitRandom, highLimitRandom + 1);
                 Console.WriteLine($"Тролль наносит вам {damageBoss} урона\n" +
                     "У вас осталось: " + (hitPointsPlayer -= damageBoss) + " HP");
