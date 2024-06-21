@@ -45,9 +45,8 @@ namespace BattleVsBoss
                 "Он вас ждал...");
 
             bool isLastTurnFireBall = false;
-            bool endGame = false;
 
-            while (endGame != true)
+            while (playerHitPoints <= 0 || bossHitPoints <= 0 == false)
             {
                 int damageBoss = random.Next(lowLimitRandom, highLimitRandom + 1);
                 int playerInputDamage = playerHitPoints -= damageBoss;
@@ -102,7 +101,7 @@ namespace BattleVsBoss
 
                         case ButtonExplosion:
 
-                            if (isLastTurnFireBall == true)
+                            if (isLastTurnFireBall)
                             {
                                 isLastTurnFireBall = false;
                                 bossHitPoints -= explosionDamage;
@@ -160,11 +159,6 @@ namespace BattleVsBoss
                             break;
                     }
                 }
-                
-                if (playerHitPoints <= 0 || bossHitPoints <= 0)
-                {
-                    endGame = true;
-                }
             }
 
             if (playerHitPoints <= 0 && bossHitPoints > 0)
@@ -183,7 +177,7 @@ namespace BattleVsBoss
                     "Последнее дело завершено.\n" +
                     $"У вас осталось {playerHitPoints} HP, у тролля {bossHitPoints}.");
             }
-            else if (playerHitPoints <= 0 && bossHitPoints <= 0)
+            else
             {
                 Console.WriteLine("Это был ваш последний бой\n" +
                     "Вы оба лежите на земле и истекаете кровью.\n" +
