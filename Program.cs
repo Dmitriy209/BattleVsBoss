@@ -48,6 +48,7 @@ namespace BattleVsBoss
             {
                 int damageBoss = random.Next(lowLimitRandom, highLimitRandom + 1);
                 int playerInputDamage = playerHitPoints -= damageBoss;
+
                 Console.WriteLine($"Тролль наносит вам {damageBoss} урона\n" +
                     $"У вас осталось: {playerInputDamage} HP");
 
