@@ -15,47 +15,46 @@ namespace BattleVsBoss
             int lowLimitRandom = 1;
             int highLimitRandom = 5;
 
-            int hitPointsBoss = 60;
+            int bossHitPoints = 1;
 
-            int maxHitPointsPlayer = 10;
-            int hitPointsPlayer = maxHitPointsPlayer;
+            int playerMaxHitPoints = 10;
+            int playerHitPoints = playerMaxHitPoints;
 
-            int maxManaPlayer = 10;
-            int manaPlayer = maxManaPlayer;
+            int playerMaxMana = 10;
+            int playerMana = playerMaxMana;
 
-            int damagePlayer = 10;
+            int playerDamage = 10;
 
-            int damageFireBall = 20;
-            int manaFireBall = 3;
+            int fireBallDamage = 20;
+            int fireBallMana = 3;
 
-            int damageExplosion = 30;
+            int explosionDamage = 30;
 
             int heal = 5;
-            int pointsHeal = 3;
+            int healPoints = 3;
 
             string newTurn = null;
-            string helpMenu = "Нажмите 1, чтобы атаковать.\n" +
-                "Нажмите 2, чтобы запустить огненный шар\n" +
-                "Нажмите 3, чтобы использовать взрыв\n" +
-                "Нажмите 4, чтобы выпить зелье лечение.";
-
-            bool endGame = false;
+            string helpMenu = $"Нажмите {ButtonAttack}, чтобы атаковать.\n" +
+                $"Нажмите {ButtonFireBall}, чтобы запустить огненный шар\n" +
+                $"Нажмите {ButtonExplosion}, чтобы использовать взрыв\n" +
+                $"Нажмите {ButtonHeal}, чтобы выпить зелье лечение.";
 
             Console.WriteLine("Последнее задание после которого вы завершите карьеру и отправитесь на покой.\n" +
                 "У вас плохое предчуствие, рефлексы уже не те, вы можете ошибиться и она станет роковой.\n" +
                 "Вы входите в пещеру тролля.\n" +
                 "Он вас ждал...");
 
-            while (endGame == false)
+            while (true)
             {
                 int damageBoss = random.Next(lowLimitRandom, highLimitRandom + 1);
+                int playerInputDamage = playerHitPoints -= damageBoss;
                 Console.WriteLine($"Тролль наносит вам {damageBoss} урона\n" +
-                    "У вас осталось: " + (hitPointsPlayer -= damageBoss) + " HP");
+                    $"У вас осталось: {playerInputDamage} HP");
 
-                if (hitPointsPlayer > 0)
+                if (playerHitPoints > 0)
                 {
                     Console.WriteLine("Вы ещё стоите на ногах.\n" +
-                        $"У вас осталось: {hitPointsPlayer} HP");
+                        $"У вас осталось: {playerHitPoints} HP");
 
                     string lastTurn = newTurn;
 
@@ -66,26 +65,25 @@ namespace BattleVsBoss
                     switch (newTurn)
                     {
                         case ButtonAttack:
-                            hitPointsBoss -= damagePlayer;
+                            bossHitPoints -= playerDamage;
 
                             Console.WriteLine("Одним взмахом меча вы наносите ему порез.\n" +
                                 $"Его шкура слишком толстая. Подобный удар разруил бы другого пополам.\n" +
                                 $"Без магии тут не обойтись.\n" +
-                                $"У тролля {hitPointsBoss} HP.");
+                                $"У тролля {bossHitPoints} HP.");
                             break;
 
                         case ButtonFireBall:
-
-                            if (manaPlayer - manaFireBall > manaFireBall)
+                            if (playerMana >= fireBallMana)
                             {
-                                manaPlayer -= manaFireBall;
-                                hitPointsBoss -= damageFireBall;
+                                playerMana -= fireBallMana;
+                                bossHitPoints -= fireBallDamage;
 
                                 Console.WriteLine("Вы вытягиваете левую руку вперед и на кончиках ваших пальцев появляется огненный шар.\n" +
                                 "Он летит в тролля и обжигает его тело.\n" +
                                 "Благодаря этому открылся магический канал и можно использовать умение взрыв.\n" +
-                                $"Тролль вопит. У тролля {hitPointsBoss} HP.\n" +
-                                $"Вы чувствуете себя уставшим. Теперь у вас {manaPlayer} маны.");
+                                $"Тролль вопит. У тролля {bossHitPoints} HP.\n" +
+                                $"Вы чувствуете себя уставшим. Теперь у вас {playerMana} маны.");
                             }
                             else
                             {
@@ -97,15 +95,14 @@ namespace BattleVsBoss
                             break;
 
                         case ButtonExplosion:
-
                             if (lastTurn == ButtonFireBall)
                             {
-                                hitPointsBoss -= damageExplosion;
+                                bossHitPoints -= explosionDamage;
                                 Console.WriteLine("Вы щелкаете пальцами. По магическому каналу от вас проскакивет молния.\n" +
                                     "Рядом с троллем происходит взрыв.\n" +
                                     "Вы слышите истошный вопль.\n" +
                                     "Похоже, он ещё больше разозлился.\n" +
-                                    $"У тролля {hitPointsBoss} HP.");
+                                    $"У тролля {bossHitPoints} HP.");
                             }
                             else
                             {
@@ -114,32 +111,30 @@ namespace BattleVsBoss
                                     "Возможно, это ваш последний бой...\n" +
                                     "Вы пропускаете ход.");
                             }
-
                             break;
 
                         case ButtonHeal:
-
-                            if (pointsHeal > 0)
+                            if (healPoints > 0)
                             {
-                                hitPointsPlayer += heal;
+                                playerHitPoints += heal;
 
-                                if (hitPointsPlayer > maxHitPointsPlayer)
+                                if (playerHitPoints > playerMaxHitPoints)
                                 {
-                                    hitPointsPlayer = maxHitPointsPlayer;
+                                    playerHitPoints = playerMaxHitPoints;
                                 }
 
-                                manaPlayer += heal;
+                                playerMana += heal;
 
-                                if (manaPlayer > maxManaPlayer)
+                                if (playerMana > playerMaxMana)
                                 {
-                                    manaPlayer = maxManaPlayer;
+                                    playerMana = playerMaxMana;
                                 }
 
-                                pointsHeal--;
+                                healPoints--;
                                 Console.WriteLine($"Вы достаёте зелье лечения из поясной сумки и ловким, отточенным движением выпиваете его залпом.\n" +
                                     $"По вашему горлу растекается теплый, неприятный на вкус травянистый напиток.\n" +
-                                    $"У вас осталось {pointsHeal} флакона.\n" +
-                                    $"Теперь у вас {hitPointsPlayer} HP и {manaPlayer} маны.");
+                                    $"У вас осталось {healPoints} флакона.\n" +
+                                    $"Теперь у вас {playerHitPoints} HP и {playerMana} маны.");
                             }
                             else
                             {
@@ -148,7 +143,6 @@ namespace BattleVsBoss
                                     "Возможно, это ваш последний бой...\n" +
                                     "Вы пропускаете ход.");
                             }
-
                             break;
 
                         default:
@@ -158,25 +152,24 @@ namespace BattleVsBoss
                             break;
                     }
                 }
-                else if (hitPointsPlayer <= 0)
+                else if (playerHitPoints <= 0)
                 {
-                    endGame = true;
                     Console.WriteLine("Это был сильный удар.\n" +
                         "Вы лежите на земле.\n" +
                         "Похоже, это конец.\n" +
                         "Последнее что вы видете:\n" +
                         "Тролль замахивается и огромная дубина летит вам прямо в лицо.\n" +
-                        $"У вас осталось {hitPointsPlayer} HP, у тролля {hitPointsBoss}.");
+                        $"У вас осталось {playerHitPoints} HP, у тролля {bossHitPoints}.");
                     break;
                 }
                 
-                if (hitPointsBoss <= 0)
+                if (bossHitPoints <= 0)
                 {
-                    endGame = true;
                     Console.WriteLine("Тролль леижит поверженный у ваших ног.\n" +
                         "Вы отрубаете ему голову и уходите.\n" +
                         "Последнее дело завершено.\n" +
-                        $"У вас осталось {hitPointsPlayer} HP, у тролля {hitPointsBoss}.");
+                        $"У вас осталось {playerHitPoints} HP, у тролля {bossHitPoints}.");
+                    break;
                 }
             }
 
