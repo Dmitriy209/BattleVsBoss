@@ -15,7 +15,7 @@ namespace BattleVsBoss
             int lowLimitRandom = 1;
             int highLimitRandom = 5;
 
-            int bossHitPoints = 1;
+            int bossHitPoints = 60;
 
             int playerMaxHitPoints = 10;
             int playerHitPoints = playerMaxHitPoints;
